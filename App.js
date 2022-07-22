@@ -5,12 +5,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "./screens/Home";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import ChatScreen from "./screens/ChatScreen";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="Home"
         screenOptions={{
           headerStyle: { backgroundColor: "orange" },
           headerTitleAlign: "center",
@@ -19,10 +20,10 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Chats" component={ChatScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-  
 }
 
 const styles = StyleSheet.create({

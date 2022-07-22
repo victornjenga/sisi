@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Button, Input, Image } from "react-native-elements";
@@ -22,6 +22,11 @@ const LoginScreen = ({ navigation }) => {
       .signInWithEmailAndPassword(email, password)
       .catch((error) => alert(error.message));
   };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
   return (
     <KeyboardAvoidingView
       style={{

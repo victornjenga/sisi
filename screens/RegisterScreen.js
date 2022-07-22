@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Button, Input, Image } from "react-native-elements";
 import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
-import { auth } from "../firebase";
-const RegisterScreen = () => {
+import { auth, db } from "../firebase";
+const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState();
@@ -26,8 +26,20 @@ const RegisterScreen = () => {
           displayName: name,
         });
       })
+      .then(() => {
+        db.collection("users").add({
+          displayName: name,
+          email: auth.currentUser.email,
+          password:password,
+        });
+      })
       .catch((error) => alert(error.message));
   };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
   return (
     <KeyboardAvoidingView
       style={{
@@ -110,7 +122,7 @@ const RegisterScreen = () => {
         <Text style={{ paddingVertical: 20 }}>
           Already have an account?
           <Pressable
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.push("Login")}
             style={{ fontStyle: "italic", fontWeight: "500" }}
           >
             <Text>Login</Text>

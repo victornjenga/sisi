@@ -62,7 +62,10 @@ const Home = ({ navigation }) => {
             marginRight: 20,
           }}
         >
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Chats")}
+            activeOpacity={0.5}
+          >
             <MaterialIcons name="message" size={24} color="black" />
           </TouchableOpacity>
         </View>

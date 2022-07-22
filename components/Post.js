@@ -17,7 +17,15 @@ import {
   FontAwesome5,
   FontAwesome,
 } from "@expo/vector-icons";
+import React from "react";
+
+import { useState } from "react";
 const Post = ({ name, message, email, timestamp }) => {
+  const [like, setLike] = useState();
+
+  const handleLike = () => {
+    setLike(!like);
+  };
   return (
     <View>
       <View style={[styles.postcard, styles.elevation]}>
@@ -31,7 +39,9 @@ const Post = ({ name, message, email, timestamp }) => {
           <View style={{ paddingLeft: 20 }}>
             <Text style={styles.headername}>{name}</Text>
             {timestamp ? (
-              <Text style={{color:"gray"}}>{new Date(timestamp?.toDate()).toLocaleString()}</Text>
+              <Text style={{ color: "gray" }}>
+                {new Date(timestamp?.toDate()).toLocaleString()}
+              </Text>
             ) : (
               <Text>Loading</Text>
             )}
@@ -48,9 +58,21 @@ const Post = ({ name, message, email, timestamp }) => {
               paddingVertical: 5,
             }}
           >
-            <AntDesign name="like2" size={24} color="gray" />
-            <FontAwesome5 name="comment" size={24} color="gray" />
-            <FontAwesome name="share-square-o" size={24} color="gray" />
+            <TouchableOpacity onPress={handleLike}>
+              {!like ? (
+                <AntDesign name="like2" size={16} color="gray" />
+              ) : (
+                <AntDesign name="like2" size={16} color="red" />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity>
+              {" "}
+              <FontAwesome5 name="comment" size={16} color="gray" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              {" "}
+              <FontAwesome name="share-square-o" size={16} color="gray" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -84,7 +106,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   message: {
-    fontSize: 21,
+    fontSize: 18,
     fontWeight: "400",
   },
 });
