@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import { Avatar, pressable } from "react-native-elements";
 
@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 
 import {
@@ -24,11 +25,23 @@ import Posts from "../components/Posts";
 import Sidebar from "./Sidebar";
 
 const Home = ({ navigation }) => {
+  const [user, setUser] = useState([]);
   const signOutUser = () => {
     auth.signOut().then(() => {
       navigation.replace("Login");
     });
   };
+  useEffect(() => {
+    const unsubscribe = db.collection("users").onSnapshot((snapshot) =>
+      setUser(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      )
+    );
+    return unsubscribe;
+  }, []);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Sisi",
@@ -51,6 +64,7 @@ const Home = ({ navigation }) => {
                 uri: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fflyclipart.com%2Fthumb2%2Fpng-icons-download-profile-196380.png&imgrefurl=https%3A%2F%2Fflyclipart.com%2Fpng-icons-download-profile-profile-icon-png-196380&tbnid=i4NYu7po1vC-oM&vet=12ahUKEwjJ9rakiIf5AhVMZRoKHdoJCRsQMygSegUIARDvAQ..i&docid=C9COW7n4Qsd_tM&w=840&h=572&q=profile%20pic%20png%20icon&ved=2ahUKEwjJ9rakiIf5AhVMZRoKHdoJCRsQMygSegUIARDvAQ",
               }}
             />
+
             <Text> Hi {auth?.currentUser?.displayName}</Text>
           </TouchableOpacity>
         </View>
@@ -75,7 +89,6 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        {/* <Sidebar /> */}
         <InputArea />
         <Posts />
       </ScrollView>

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { KeyboardAvoidingView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Button, Input, Image } from "react-native-elements";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
     });
   }, [navigation]);
   return (
-    <KeyboardAvoidingView
+    <SafeAreaView
       style={{
         flex: 1,
         alignItems: "center",
@@ -37,65 +37,69 @@ const LoginScreen = ({ navigation }) => {
         backgroundColor: "white",
       }}
     >
-      <StatusBar style="pink" />
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 10,
-          backgroundColor: "white",
-          width: 300,
-        }}
-      >
-        <Text style={{ fontStyle: "italic", fontWeight: "900", fontSize: 30 }}>
-          SISI
-        </Text>
+      <ScrollView>
+        <StatusBar style="pink" />
         <View
           style={{
-            flexDirection: "row",
+            flex: 1,
             alignItems: "center",
             justifyContent: "center",
+            padding: 10,
+            backgroundColor: "white",
+            width: 300,
           }}
         >
-          <MaterialIcons name="email" size={24} color="black" />
-          <Input
-            placeholder="Email"
-            onChangeText={(text) => setEmail(text)}
-            autoFocus
-            type="email"
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Entypo name="lock" size={24} color="black" />
-          <Input
-            onChangeText={(text) => setPassword(text)}
-            placeholder="Password"
-            secureTextEntry
-            type="password"
-            onSubmitEditing={signIn}
-          />
-        </View>
-
-        <Button title="Login" onPress={signIn} />
-        <Text style={{ paddingVertical: 20 }}>Forgot Password?</Text>
-        <Text style={{ paddingVertical: 20 }}>
-          Dont have an account?
-          <Pressable
-            onPress={() => navigation.navigate("Register")}
-            style={{ fontStyle: "italic", fontWeight: "500" }}
+          <Text
+            style={{ fontStyle: "italic", fontWeight: "900", fontSize: 30 }}
           >
-            <Text>Register</Text>
-          </Pressable>
-        </Text>
-      </View>
-    </KeyboardAvoidingView>
+            SISI
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <MaterialIcons name="email" size={24} color="black" />
+            <Input
+              placeholder="Email"
+              onChangeText={(text) => setEmail(text)}
+              autoFocus
+              type="email"
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Entypo name="lock" size={24} color="black" />
+            <Input
+              onChangeText={(text) => setPassword(text)}
+              placeholder="Password"
+              secureTextEntry
+              type="password"
+              onSubmitEditing={signIn}
+            />
+          </View>
+
+          <Button title="Login" onPress={signIn} />
+          <Text style={{ paddingVertical: 20 }}>Forgot Password?</Text>
+          <Text style={{ paddingVertical: 20 }}>
+            Dont have an account?
+            <Pressable
+              onPress={() => navigation.navigate("Register")}
+              style={{ fontStyle: "italic", fontWeight: "500" }}
+            >
+              <Text>Register</Text>
+            </Pressable>
+          </Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

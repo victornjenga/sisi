@@ -1,26 +1,32 @@
-import { StyleSheet, Text, View, Keyboard } from "react-native";
+import { StyleSheet, Text, View, Keyboard, Image } from "react-native";
 import React, { useRef, useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native-web";
-import { auth, db } from "../firebase";
+import { auth, db, storage } from "../firebase";
 import firebase from "firebase";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { Input } from "react-native-elements";
+import * as ImagePicker from "expo-image-picker";
 
 const InputArea = () => {
-  const [imageToPost, setImageToPost] = useState(null);
-
+  const [image, setImage] = useState(null);
   const [input, setInput] = useState("");
   const inputRef = useRef(null);
   const filepickerRef = useRef(null);
-  
-  const addImageToPost = (e) => {
-    const reader = new FileReader();
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
     }
-    reader.onload = (readerEvent) => {
-      setImageToPost(readerEvent.target.result);
-    };
   };
   const sendMessage = async () => {
     Keyboard.dismiss();
@@ -32,28 +38,37 @@ const InputArea = () => {
         message: input,
         displayName: auth?.currentUser?.displayName,
         email: auth.currentUser.email,
+        // profilePic:auth?.currentUser?.profilePic,
+        postImage: image,
       })
-      .then(() => setInput(""))
       .catch((error) => alert(error));
-    
+      setInput("")
+      setImage("")
+
   };
   return (
     <>
       <View style={styles.inputarea}>
         <TouchableOpacity
           rounded
-          style={{ position: "relative" }}
+          style={{
+            position: "relative",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           ref={filepickerRef}
-          onPress={addImageToPost}
-          >
+          onPress={pickImage}
+        >
           <EvilIcons name="camera" size={29} color="black" />
-          <input
-            hidden
-            onChange={addImageToPost}
-            ref={filepickerRef}
-            style={{ position: "absolute" }}
-            type="file"
-          />
+          <View>
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 40, height: 40 }}
+              />
+            )}
+          </View>
         </TouchableOpacity>
         <TextInput
           ref={inputRef}
@@ -63,16 +78,9 @@ const InputArea = () => {
           placeholder="Whats Up"
           style={styles.input}
         />
-        <TouchableOpacity   onPress={sendMessage} activeOpacity={0.5}>
+        <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
           <Ionicons disabled={!input} name="send" size={24} color="#2B68E6" />
         </TouchableOpacity>
-      </View>
-      <View>
-        {imageToPost && (
-          <View>
-            <Image source={{ uri: imageToPost }} />
-          </View>
-        )}
       </View>
     </>
   );
@@ -95,7 +103,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: "row",
   },
-  input:{
+  input: {
     width: "100%",
     height: 40,
     marginHorizontal: 15,
@@ -108,5 +116,5 @@ const styles = StyleSheet.create({
     color: "grey",
     marginVertical: 10,
     flexDirection: "row",
-  }
+  },
 });

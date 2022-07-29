@@ -6,12 +6,14 @@ import Home from "./screens/Home";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ChatScreen from "./screens/ChatScreen";
+import Messages from "./screens/Messages";
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: { backgroundColor: "orange" },
           headerTitleAlign: "center",
@@ -21,6 +23,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Chats" component={ChatScreen} />
+        <Stack.Screen name="Messages" component={Messages} />
       </Stack.Navigator>
     </NavigationContainer>
   );

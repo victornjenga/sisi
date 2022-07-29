@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar, ListItem } from "react-native-elements";
-import { db ,auth} from "../firebase";
+import { TouchableOpacity } from "react-native-web";
+import { db, auth } from "../firebase";
 
-const CustomListtem = ({ id, chatName,email, enterChat }) => {
-  const [chatMessages, setChatMessages] = useState([]);
+const CustomListtem = ({ name ,email}) => {
 
   useEffect(() => {
     const unsubscribe = db
@@ -16,20 +16,28 @@ const CustomListtem = ({ id, chatName,email, enterChat }) => {
     return unsubscribe;
   }, []);
   return (
-    <ListItem key={id} onPress={() => enterChat(id,email, chatName)} buttonDivider>
-      <Avatar
-        rounded
-        source={{
-          uri: "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
-        }}
-      />
-      <ListItem.Content>
-        <ListItem.Title style={{ fontWeight: "600" }}>
-          {chatName}
-        </ListItem.Title>
-        <ListItem.Subtitle> subtitle </ListItem.Subtitle>
-      </ListItem.Content>
-    </ListItem>
+    <View>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("Messages")
+        }
+      >
+        <ListItem  buttonDivider>
+          <Avatar
+            rounded
+            source={{
+              uri: "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
+            }}
+          />
+          <ListItem.Content>
+            <ListItem.Title style={{ fontWeight: "600" }}>
+              {name}
+            </ListItem.Title>
+            <ListItem.Subtitle>subtitle </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      </TouchableOpacity>
+    </View>
   );
 };
 

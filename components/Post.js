@@ -8,6 +8,7 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 
 import {
@@ -20,7 +21,7 @@ import {
 import React from "react";
 
 import { useState } from "react";
-const Post = ({ name, message, email, timestamp }) => {
+const Post = ({ name, message, email, timestamp, postImage }) => {
   const [like, setLike] = useState();
 
   const handleLike = () => {
@@ -50,6 +51,14 @@ const Post = ({ name, message, email, timestamp }) => {
         <View style={{ paddingLeft: 30, paddingVertical: 19 }}>
           <Text style={styles.message}>{message}</Text>
         </View>
+        {postImage && (
+          <View style={styles.postImage}>
+            <Image
+              source={{ uri: postImage }}
+              style={{ width: 300, height: 300 }}
+            />
+          </View>
+        )}
         <View style={{ borderTop: "1px solid #f7f5f2" }}>
           <View
             style={{
@@ -108,5 +117,9 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 18,
     fontWeight: "400",
+  },
+  postImage: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
