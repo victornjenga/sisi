@@ -38,6 +38,8 @@ const InputArea = () => {
         message: input,
         displayName: auth?.currentUser?.displayName,
         email: auth.currentUser.email,
+        likes: null,
+        comments: null,
         // profilePic:auth?.currentUser?.profilePic,
         postImage: image,
       })

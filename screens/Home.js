@@ -45,7 +45,7 @@ const Home = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Sisi",
-      headerStyle: { backgroundColor: "orange" },
+      headerStyle: { backgroundColor: "orange",position:"fixed" },
       headerTitleStyle: {
         color: "#000",
         alignSelf: "start",
@@ -87,7 +87,7 @@ const Home = ({ navigation }) => {
     });
   }, [navigation]);
   return (
-    <SafeAreaView>
+    <SafeAreaView  style={{flex: 1}}>
       <ScrollView>
         <InputArea />
         <Posts />

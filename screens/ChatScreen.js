@@ -88,7 +88,7 @@ const ChatScreen = ({ navigation }) => {
       {/* <SearchContacts /> */}
       <View>
         {chats.map(({ id, data }) => (
-          <TouchableOpacity key={id} onPress={() => navigation.navigate("Messages")}>
+          <TouchableOpacity key={id} onPress={() => navigation.navigate("Messages",{user:data?.displayName})}>
             <ListItem buttonDivider>
               <Avatar
                 rounded

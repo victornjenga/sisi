@@ -12,6 +12,7 @@ import { StatusBar } from "expo-status-bar";
 import { Button, Input, Image } from "react-native-elements";
 import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { auth, db } from "../firebase";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 
 const RegisterScreen = ({ navigation }) => {
@@ -80,102 +81,104 @@ const RegisterScreen = ({ navigation }) => {
     >
       <StatusBar style="pink" />
       <ScrollView>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 10,
-          backgroundColor: "white",
-          width: 300,
-        }}
-      >
-        <Text style={{ fontStyle: "italic", fontWeight: "900", fontSize: 30 }}>
-          SISI
-        </Text>
-        <TouchableOpacity onPress={pickProfile}>
-          <View style={styles.profilepic}>
-            {profile ? (
-              <Image
-                source={{ uri: profile }}
-                style={{ width: 70, height: 70, borderRadius: "50%" }}
-              />
-            ) : (
-              <Entypo
-                name="plus"
-                size={34}
-                color="black"
-                style={styles.addbutton}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
         <View
           style={{
-            flexDirection: "row",
+            flex: 1,
             alignItems: "center",
             justifyContent: "center",
+            padding: 10,
+            backgroundColor: "white",
+            width: 300,
           }}
         >
-          <Ionicons name="person-outline" size={24} color="black" />
-          <Input
-            placeholder="Full Name"
-            autoFocus
-            type="text"
-            value={name}
-            onChangeText={(text) => setName(text)}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <MaterialIcons name="email" size={24} color="black" />
-          <Input
-            placeholder="Email"
-            type="email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Entypo name="lock" size={24} color="black" />
-          <Input
-            placeholder="Password"
-            type="password"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
-
-        <Button
-          containerStyle={styles.button}
-          onPress={register}
-          raised
-          title="Register"
-        />
-        <Text style={{ paddingVertical: 20 }}>Forgot Password?</Text>
-        <Text style={{ paddingVertical: 20 }}>
-          Already have an account?
-          <Pressable
-            onPress={() => navigation.push("Login")}
-            style={{ fontStyle: "italic", fontWeight: "500" }}
+          <Text
+            style={{ fontStyle: "italic", fontWeight: "900", fontSize: 30 }}
           >
-            <Text>Login</Text>
-          </Pressable>
-        </Text>
-      </View>
-       </ScrollView>
+            SISI
+          </Text>
+          <TouchableOpacity onPress={pickProfile}>
+            <View style={styles.profilepic}>
+              {profile ? (
+                <Image
+                  source={{ uri: profile }}
+                  style={{ width: 70, height: 70, borderRadius: "50%" }}
+                />
+              ) : (
+                <Entypo
+                  name="plus"
+                  size={34}
+                  color="black"
+                  style={styles.addbutton}
+                />
+              )}
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Ionicons name="person-outline" size={24} color="black" />
+            <Input
+              placeholder="Full Name"
+              autoFocus
+              type="text"
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <MaterialIcons name="email" size={24} color="black" />
+            <Input
+              placeholder="Email"
+              type="email"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Entypo name="lock" size={24} color="black" />
+            <Input
+              placeholder="Password"
+              type="password"
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
+
+          <Button
+            containerStyle={styles.button}
+            onPress={register}
+            raised
+            title="Register"
+          />
+          <Text style={{ paddingVertical: 20 }}>Forgot Password?</Text>
+          <Text style={{ paddingVertical: 20 }}>
+            Already have an account?
+            <Pressable
+              onPress={() => navigation.push("Login")}
+              style={{ fontStyle: "italic", fontWeight: "500" }}
+            >
+              <Text>Login</Text>
+            </Pressable>
+          </Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import { auth, db ,storage} from "../firebase";
 import firebase from "firebase";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet,ScrollView } from "react-native";
 import Post from "./Post";
 
 const Posts = () => {
@@ -15,15 +15,15 @@ const Posts = () => {
       .collection("Posts")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) =>
-        setPost(
-          snapshot.docs.map(
+        setPost( snapshot.docs.map(
             (doc) => ({
               id: doc.id,
               data: doc.data(),
               
               
             }),
-           
+            
+
             setLoading(false)
           )
         ),
@@ -33,8 +33,9 @@ const Posts = () => {
   }, []);
   return (
     <View>
+      <ScrollView>
       {post.map(({ id, data }) => (
-        //  console.log(data?.postImage),
+        //  console.log(data.displayName),
         <Post
           key={id}
           name={data.displayName}
@@ -47,6 +48,7 @@ const Posts = () => {
       <View style={styles.loading}>
         {loading ? <Text style={{ fontSize: 25 }}>Loading...</Text> : null}
       </View>
+      </ScrollView>
     </View>
   );
 };
